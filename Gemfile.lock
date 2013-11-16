@@ -1,0 +1,19 @@
+GIT
+  remote: git://github.com/lian/bitcoin-ruby.git
+  revision: d2fc81491e78b8c912281ed0cd2884ffbcdcb839
+  specs:
+    bitcoin-ruby (0.0.2)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    rmagick (2.13.2)
+    rqrcode (0.4.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  bitcoin-ruby!
+  rmagick (~> 2.13.2)
+  rqrcode (~> 0.4.2)
