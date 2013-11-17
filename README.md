@@ -38,3 +38,6 @@ where AMOUNT is a decimal number like "0.1". The default is "0.001". This will c
 
 Remember to actually send the Bitcoin to that address!
 
+# Known Issues
+## Mac OS X
+There seems to be a common incompatibility with the way it tries to load the font needed.
