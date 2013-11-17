@@ -1,5 +1,8 @@
 #!/usr/bin/env ruby
 
+require 'bitcoin'
+require './lib/rqrcode-rmagick'
+
 amount = ARGV.empty? ? '0.001' : "#{ARGV.first.to_f.round(3)}"
 amount += ' BTC'
 
