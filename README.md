@@ -22,11 +22,13 @@ As of yet, it has only been tested and verified to work with:
 - Ruby 2.0.0
 
 ## Dependencies
-Make sure you have [bundler](http://bundler.io/) installed and running:
+You will need [ImageMagick](http://www.imagemagick.org/), and it's development libraries set up for your OS.
+
+After that, make sure you have [bundler](http://bundler.io/) installed and then, run:
 ```
 bundle install
 ```
-should get you all set up to run the script.
+That should get you all set up to run the script.
 
 # Usage
 ```
