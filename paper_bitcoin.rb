@@ -53,7 +53,7 @@ priva = rotated_qr(secreta)
 front.composite!(priva, 3450, 830, Magick::OverCompositeOp)
 
 # write it
-front.write('test.png')
+front.write(addr_58 + '.front.png')
 
 ## Now the back.
 back = Magick::ImageList.new
@@ -66,6 +66,6 @@ draw.annotate(back, 0, 0, 1500, 2380, addr_58)
 privb = rotated_qr(secretb)
 back.composite!(privb, 3700, 1100, Magick::OverCompositeOp)
 
-back.write('test2.png')
+back.write(addr_58 + '.back.png')
 
 puts "Generated images for #{addr_58}"
