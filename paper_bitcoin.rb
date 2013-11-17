@@ -3,18 +3,39 @@
 require 'bitcoin'
 require './lib/rqrcode-rmagick'
 
-amount = ARGV.empty? ? '0.001' : "#{ARGV.first.to_f.round(3)}"
-amount += ' BTC'
+# Types for the 'write' function
+ADDRESS      = 1
+DENOMINATION = 2
 
-TYPEFACE = 'Arial Rounded Bold.ttf'
-DENOMINATION = 200
-ADDRESS = 100
-key = Bitcoin::generate_key
-secret = key[0]
-pubkey = key[1]
-addr_58 = Bitcoin::pubkey_to_address(pubkey)
-secreta = secret[0, 32]
-secretb = secret[32..-1]
+# Bill templates
+FRONT_TEMPLATE = 'template-front.png'
+BACK_TEMPLATE  = 'template-back.png'
+
+# Font settings
+TYPEFACE   = 'Arial Rounded Bold.ttf'
+DENOM_SIZE = 200
+ADDR_SIZE  = 100
+
+## Artifact positioning
+# Denominations
+FRONT_BL_DENOM = [390, 2275]
+FRONT_TR_DENOM = [3740, 630]
+BACK_DENOM     = [390, 2420]
+
+# Addresses
+FRONT_ADDR = [550, 700]
+BACK_ADDR  = [1500, 2380]
+
+# QR Codes
+ADDR_QR   = [520, 830]
+PRIV_QR_A = [3450, 830]
+PRIV_QR_B = [3700, 1100]
+
+
+def get_amount
+  amount = ARGV.empty? ? '0.001' : "#{ARGV.first.to_f.round(3)}"
+  amount + ' BTC'
+end
 
 ## Given a string, returns a transparent QR code image object 
 ## that has been rotated and resized to fit the template
@@ -25,47 +46,56 @@ def rotated_qr(s)
   i.resize!(1100, 1100)
 end
 
-front = Magick::ImageList.new
-front.read('template-front.png')
+def write_bill(dest, type, text, offset_pos)
+  draw             = Magick::Draw.new
+  draw.font        = TYPEFACE
+  draw.font_weight = Magick::BoldWeight
 
-draw = Magick::Draw.new
-draw.font = TYPEFACE
-draw.font_weight = Magick::BoldWeight
+  draw.pointsize = case type
+  when DENOMINATION
+    DENOM_SIZE
+  when ADDRESS
+    ADDR_SIZE
+  end
 
-draw.pointsize = DENOMINATION
+  draw.annotate(dest, 0, 0, offset_pos[0], offset_pos[1], text)
+end
 
-## bottom left
-draw.annotate(front, 0, 0, 390, 2275, amount)
+def draw_qr(dest, s, offset_pos)
+  qr = rotated_qr(s)
+  dest.composite(qr, offset_pos[0], offset_pos[1], Magick::OverCompositeOp)
+end
 
-## top right
-draw.annotate(front, 0, 0, 3740, 630, amount)
+def draw_bill(front_template, back_template, amount, key)
+  secret  = key[0]
+  addr_58 = Bitcoin::pubkey_to_address(key[1])
 
-draw.pointsize = ADDRESS
+  front = Magick::ImageList.new
+  front.read(front_template)
 
-## address
-draw.annotate(front, 0, 0, 550, 700, addr_58[0, 18])
-draw.annotate(front, 0, 0, 550, 800, addr_58[18..-1])
+  write_bill(front, DENOMINATION, amount, FRONT_BL_DENOM)
+  write_bill(front, DENOMINATION, amount, FRONT_TR_DENOM)
+  write_bill(front, ADDRESS, addr_58[0, 18], FRONT_ADDR)
+  write_bill(front, ADDRESS, addr_58[18..-1], [FRONT_ADDR[0], FRONT_ADDR[1] + ADDR_SIZE])
 
-# QRCODEZZZ
-addrq = rotated_qr(addr_58)
-front.composite!(addrq, 520, 830, Magick::OverCompositeOp)
-priva = rotated_qr(secreta)
-front.composite!(priva, 3450, 830, Magick::OverCompositeOp)
+  front = draw_qr(front, addr_58, ADDR_QR)
+  front = draw_qr(front, secret[0, 32], PRIV_QR_A)
 
-# write it
-front.write(addr_58 + '.front.png')
+  front.write(addr_58 + '.front.png')
 
-## Now the back.
-back = Magick::ImageList.new
-back.read('template-back.png')
-draw.pointsize = DENOMINATION
-draw.annotate(back, 0, 0, 390, 2420, amount)
-draw.pointsize = ADDRESS
-draw.annotate(back, 0, 0, 1500, 2380, addr_58)
+  back = Magick::ImageList.new
+  back.read(back_template)
 
-privb = rotated_qr(secretb)
-back.composite!(privb, 3700, 1100, Magick::OverCompositeOp)
+  write_bill(back, DENOMINATION, amount, BACK_DENOM)
+  write_bill(back, ADDRESS, addr_58, BACK_ADDR)
 
-back.write(addr_58 + '.back.png')
+  back = draw_qr(back, secret[32..-1], PRIV_QR_B)
 
-puts "Generated images for #{addr_58}"
+  back.write(addr_58 + '.back.png')
+end
+
+
+## Main flow
+key = Bitcoin::generate_key
+draw_bill(FRONT_TEMPLATE, BACK_TEMPLATE, get_amount, key)
+puts "Generated images for #{Bitcoin::pubkey_to_address(key[1])}"
