@@ -8,10 +8,12 @@ See also: http://carlos.bueno.org/2012/07/paper-bitcoins.html
 # License
 ## Original Python script
 carlos@bueno.org 17 July 2012
+
 BSD license: Share and enjoy, but give credit where it's due.
 
 ## Ruby port
 breakyboy@gmail.com 17 November 2013
+
 BSD license: Share and enjoy, but give credit where it's due.
 
 # Installation
@@ -29,7 +31,7 @@ should get you all set up to run the script.
 # Usage
 ```
 $ ./paper_bitcoin.rb AMOUNT
-
+```
 where AMOUNT is a decimal number like "0.1". The default is "0.001". This will create a new keypair and bitcoin address, and generate the front and back images for printing complete with QR codes and text. The filename will be in the form "iSamPLE-front.png", where "iSamPLE" is the newly-minted Bitcoin address.
 
 Remember to actually send the Bitcoin to that address!
