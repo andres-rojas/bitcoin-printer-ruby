@@ -41,3 +41,19 @@ Remember to actually send the Bitcoin to that address!
 # Known Issues
 ## Mac OS X
 There seems to be a common incompatibility with the way it tries to load the font needed.
+
+# Development
+I developed using a Virtualbox-based 64-bit Ubuntu Precise Vagrant box. I've included my Vagrantfile and Berksfile in case anyone wants to pick up exactly where I left off.
+
+To set up, you'll need:
+
+- [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
+- [Vagrant](http://downloads.vagrantup.com/)
+- [Berkshelf](http://berkshelf.com/) -- i.e. ```gem install berkshelf```
+- [Vagrant-Berkshelf](https://github.com/berkshelf/vagrant-berkshelf) -- i.e. ```vagrant plugin install vagrant-berkshelf```
+- [Vagrant-Omnibus](https://github.com/schisamo/vagrant-omnibus) -- i.e. ```vagrant plugin install vagrant-omnibus```
+
+Once all of that is set up:
+```vagrant up && vagrant ssh```
+
+After several minutes (the chef-solo run alone can take about 15 minutes), that will get your VM spun up and ready to roll. You can access the script (and all other files in your host's directory) at: ```/vagrant```
