@@ -6,6 +6,9 @@ require './lib/rqrcode-rmagick'
 amount = ARGV.empty? ? '0.001' : "#{ARGV.first.to_f.round(3)}"
 amount += ' BTC'
 
+TYPEFACE = 'Arial Rounded Bold.ttf'
+DENOMINATION = 200
+ADDRESS = 100
 key = Bitcoin::generate_key
 secret = key[0]
 pubkey = key[1]
@@ -18,8 +21,30 @@ secretb = secret[32..-1]
 def rotated_qr(s)
   derp = RQRCode::QRCode.new(s)
   i = derp.draw(20, 'black', 'transparent')
-  i.rotate! 315
-  i.resize! 1100, 1100
+  i.rotate!(315)
+  i.resize!(1100, 1100)
 end
 
+front = Magick::ImageList.new
+front.read('template-front.png')
 
+draw = Magick::Draw.new
+draw.font = TYPEFACE
+draw.font_weight = Magick::BoldWeight
+
+draw.pointsize = DENOMINATION
+
+## bottom left
+draw.annotate(front, 0, 0, 390, 2275, amount)
+
+## top right
+draw.annotate(front, 0, 0, 3740, 630, amount)
+
+draw.pointsize = ADDRESS
+
+## address
+draw.annotate(front, 0, 0, 550, 700, addr_58[0, 18])
+draw.annotate(front, 0, 0, 550, 800, addr_58[18..-1])
+
+# write it
+front.write('test.png')
