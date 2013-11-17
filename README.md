@@ -54,6 +54,11 @@ To set up, you'll need:
 - [Vagrant-Omnibus](https://github.com/schisamo/vagrant-omnibus) -- i.e. ```vagrant plugin install vagrant-omnibus```
 
 Once all of that is set up:
-```vagrant up && vagrant ssh```
+```vagrant up```
 
-After several minutes (the chef-solo run alone can take about 15 minutes), that will get your VM spun up and ready to roll. You can access the script (and all other files in your host's directory) at: ```/vagrant```
+After several minutes (the chef-solo run alone can take about 15 minutes), that will get your VM spun up and ready to roll. You can SSH into the running VM with: ```vagrant ssh```
+
+You can access the script (and all other files in your host's directory) at: ```/vagrant```
+
+To suspend the VM and free up your system resources without having to rebuild the whole VM from scratch: ```vagrant suspend```
+If you really want to just delete the VM, then: ```vagrant destroy```
