@@ -46,5 +46,11 @@ draw.pointsize = ADDRESS
 draw.annotate(front, 0, 0, 550, 700, addr_58[0, 18])
 draw.annotate(front, 0, 0, 550, 800, addr_58[18..-1])
 
+# QRCODEZZZ
+addrq = rotated_qr(addr_58)
+front.composite!(addrq, 520, 830, Magick::OverCompositeOp)
+priva = rotated_qr(secreta)
+front.composite!(priva, 3450, 830, Magick::OverCompositeOp)
+
 # write it
 front.write('test.png')
