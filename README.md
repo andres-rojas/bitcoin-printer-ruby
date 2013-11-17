@@ -22,7 +22,7 @@ As of yet, it has only been tested and verified to work with:
 - Ruby 2.0.0
 
 ## Dependencies
-Make sure you have bundler installed and running:
+Make sure you have [bundler](http://bundler.io/) installed and running:
 ```
 bundle install
 ```
