@@ -54,3 +54,18 @@ front.composite!(priva, 3450, 830, Magick::OverCompositeOp)
 
 # write it
 front.write('test.png')
+
+## Now the back.
+back = Magick::ImageList.new
+back.read('template-back.png')
+draw.pointsize = DENOMINATION
+draw.annotate(back, 0, 0, 390, 2420, amount)
+draw.pointsize = ADDRESS
+draw.annotate(back, 0, 0, 1500, 2380, addr_58)
+
+privb = rotated_qr(secretb)
+back.composite!(privb, 3700, 1100, Magick::OverCompositeOp)
+
+back.write('test2.png')
+
+puts "Generated images for #{addr_58}"
