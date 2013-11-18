@@ -22,6 +22,7 @@ As of yet, it has only been tested and verified to work with:
 - Ruby 2.0.0
 
 ## Dependencies
+### Universal
 You will need [ImageMagick](http://www.imagemagick.org/), and it's development libraries set up for your OS.
 
 After that, make sure you have [bundler](http://bundler.io/) installed and then, run:
@@ -30,6 +31,9 @@ bundle install
 ```
 That should get you all set up to run the script.
 
+### Mac OS X
+You'll probably need [Ghostscript](http://www.ghostscript.com/), which you can helpfully grab with [brew](http://brew.sh/).
+
 # Usage
 ```
 $ ./paper_bitcoin.rb AMOUNT
@@ -37,10 +41,6 @@ $ ./paper_bitcoin.rb AMOUNT
 where AMOUNT is a decimal number like "0.1". The default is "0.001". This will create a new keypair and bitcoin address, and generate the front and back images for printing complete with QR codes and text. The filename will be in the form "iSamPLE-front.png", where "iSamPLE" is the newly-minted Bitcoin address.
 
 Remember to actually send the Bitcoin to that address!
-
-# Known Issues
-## Mac OS X
-There seems to be a common incompatibility with the way it tries to load the font needed.
 
 # Development
 I developed using a Virtualbox-based 64-bit Ubuntu Precise Vagrant box. I've included my Vagrantfile and Berksfile in case anyone wants to pick up exactly where I left off.
