@@ -5,24 +5,24 @@ A quick and dirty port of [Carlos Bueno's bitcoin-printer python script](https:/
 
 See also: http://carlos.bueno.org/2012/07/paper-bitcoins.html
 
-# License
-## Original Python script
+## License
+### Original Python script
 carlos@bueno.org 17 July 2012
 
 BSD license: Share and enjoy, but give credit where it's due.
 
-## Ruby port
+### Ruby port
 breakyboy@gmail.com 17 November 2013
 
 BSD license: Share and enjoy, but give credit where it's due.
 
-# Installation
-## Ruby Versions
+## Installation
+### Ruby Versions
 As of yet, it has only been tested and verified to work with:
 - Ruby 2.0.0
 
-## Dependencies
-### Universal
+### Dependencies
+#### Universal
 You will need [ImageMagick](http://www.imagemagick.org/), and it's development libraries set up for your OS.
 
 After that, make sure you have [bundler](http://bundler.io/) installed and then, run:
@@ -31,10 +31,10 @@ bundle install
 ```
 That should get you all set up to run the script.
 
-### Mac OS X
+#### Mac OS X
 You'll probably need [Ghostscript](http://www.ghostscript.com/), which you can helpfully grab with [brew](http://brew.sh/).
 
-# Usage
+## Usage
 ```
 $ ./paper_bitcoin.rb AMOUNT
 ```
@@ -42,7 +42,7 @@ where AMOUNT is a decimal number like "0.1". The default is "0.001". This will c
 
 Remember to actually send the Bitcoin to that address!
 
-# Development
+## Development
 I developed using a Virtualbox-based 64-bit Ubuntu Precise Vagrant box. I've included my Vagrantfile and Berksfile in case anyone wants to pick up exactly where I left off.
 
 To set up, you'll need:
